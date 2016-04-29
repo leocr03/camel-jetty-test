@@ -19,7 +19,8 @@ public class CamelJettyTest {
             @Override
             public void configure() throws Exception {
                 from("timer://foo?period=1000")
-                        .setHeader(Exchange.HTTP_URI, constant("https://www.google.com.br/?gfe_rd=cr&ei=qq4OV6rLH-Sp8wezhqpI&gws_rd=ssl"))
+                        .setHeader(Exchange.HTTP_URI,
+                                constant("https://translate.google.com/community?source=t-new-user"))
                         .toF("jetty:http://local?httpClient.connectTimeout=%d&httpClient.timeout=%d" +
                                         "&httpClient.maxRedirects=1&httpClientMinThreads=%d&httpClientMaxThreads=%d",
                                 30000,
