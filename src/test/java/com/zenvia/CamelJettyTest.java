@@ -18,17 +18,20 @@ public class CamelJettyTest {
 
             @Override
             public void configure() throws Exception {
+
+                onException(Exception.class)
+                        .log("the LOG body is = [${body}]")
+                        .end();
+
                 from("timer://foo?period=1000")
                         .setHeader(Exchange.HTTP_URI,
-                                constant("https://translate.google.com/community?source=t-new-user"))
+                                constant("http://localhost:9999?paramTest=testValue"))
                         .toF("jetty:http://local?httpClient.connectTimeout=%d&httpClient.timeout=%d" +
                                         "&httpClient.maxRedirects=1&httpClientMinThreads=%d&httpClientMaxThreads=%d",
                                 30000,
                                 30000,
                                 1,
                                 10)
-                        .log("${headers.CamelHttpUri}")
-                        .log("*** the body is = [${body}]")
                         .end();
 
             }
